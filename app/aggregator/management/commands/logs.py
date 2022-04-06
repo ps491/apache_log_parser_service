@@ -2,7 +2,7 @@ import logging
 
 from django.core.management.base import BaseCommand
 
-from aggregator.services.parse_logs import parse_log_files
+from aggregator.services.parse_log_files import parse_log_files
 
 logger = logging.getLogger(__name__)
 

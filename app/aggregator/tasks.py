@@ -1,14 +1,15 @@
 import dramatiq
 import logging
 
+from aggregator.services.parse_logs import parse_logs
+
 log = logging.getLogger(__name__)
 
 
-@dramatiq.actor
-def process_parse_logs():
-    print("Проверка файлов")
-    # получаем директорию из конфига
-    # проверяем файлы, сверяем с записями в бд
-    # если не распарсен, от отправляем в таск на парсинг
+# @dramatiq.actor
+def process_parse_log_task(instance_id: int):
+    print("Запуск парсинга, чтение файла")
+    parse_logs(instance_id)
+    # TODO: проверяем есть ли файл
 
 
