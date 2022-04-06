@@ -17,6 +17,7 @@ class TestLogAdmin(admin.ModelAdmin):
 class LogFileAdmin(admin.ModelAdmin):
     list_display_links = ['id', ]
     list_display = ['id', 'file', 'processed']
+    readonly_fields = ['processed']
 
 
 admin.site.register(TestLog, TestLogAdmin)
