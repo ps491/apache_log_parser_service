@@ -1,8 +1,10 @@
 from django.db import models
 
+from aggregator.services.path_log_files import logs_path
+
 
 class LogFile(models.Model):
-    file = models.FilePathField()
+    file = models.FilePathField(path=logs_path, match=r".*\.log$")
     processed = models.BooleanField(default=False)
 
     def __str__(self):
@@ -14,7 +16,6 @@ class TestLog(models.Model):
 
     def __str__(self):
         return f'{self.id}'
-
 
 
 class Log(models.Model):
