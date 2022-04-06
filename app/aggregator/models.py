@@ -9,6 +9,14 @@ class LogFile(models.Model):
         return f'{self.id}'
 
 
+class TestLog(models.Model):
+    row = models.CharField(max_length=600, help_text='User-agent')
+
+    def __str__(self):
+        return f'{self.id}'
+
+
+
 class Log(models.Model):
     ip = models.GenericIPAddressField(protocol='IPv4', help_text='h')
     hyphen = models.CharField(max_length=1, default='-', help_text='l')

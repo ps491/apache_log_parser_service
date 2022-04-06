@@ -1,0 +1,79 @@
+version: '3.7'
+
+services:
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - dgs
+
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+#      POSTGRES_MULTIPLE_DATABASES: sentry,myproject
+
+    volumes:
+      - ./pg_data/db:/var/lib/postgresql/data
+
+    ports:
+      - "5432:5432"
+    networks:
+      - dgs
+
+  app:
+    container_name: app
+    build:
+      context: app
+      dockerfile: app/Dockerfile
+    #    command: sh -c "poetry run python manage.py migrate --no-input && poetry run python manage.py runserver 0.0.0.0:8000"
+    entrypoint: /app/entrypoint.sh
+    env_file:
+      - ./app/.env.dev
+    ports:
+      - 8000:8000
+    volumes:
+      - ./app:/app/
+    networks:
+      - dgs
+    depends_on:
+      - redis
+      - db
+
+  dramatiq_worker:
+    container_name: dramatiq_worker
+    build: ./backend
+    command: python manage.py rundramatiq
+    env_file:
+      - ./app/.env.dev
+    volumes:
+      - ./app:/app
+    depends_on:
+      - redis
+      - app
+      - db
+    restart: unless-stopped
+    networks:
+      - dgs
+
+  ofelia_sheduler:
+    image: mcuadros/ofelia:latest
+    container_name: ofelia_sheduler
+    depends_on:
+      - app
+#    command: daemon --docker
+    networks:
+      - dgs
+    restart: always
+    volumes:
+      - ./logs:/tmp/logs
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./ofelia/config.ini:/etc/ofelia/config.ini
+
+networks:
+  dgs:
+    driver: bridge
