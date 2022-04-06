@@ -1,6 +1,14 @@
 from django.db import models
 
 
+class LogFile(models.Model):
+    file = models.FilePathField()
+    processed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.id}'
+
+
 class Log(models.Model):
     ip = models.GenericIPAddressField(protocol='IPv4', help_text='h')
     hyphen = models.CharField(max_length=1, default='-', help_text='l')
