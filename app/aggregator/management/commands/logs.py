@@ -12,4 +12,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         parse_log_files()
-        return "Выполнено!!"
+        return "Complete!!"

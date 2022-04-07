@@ -16,7 +16,7 @@ log = logging.getLogger(__name__)
 def process_read_log_file_task(instance_id: int):
     """Запуск чтения файла"""
     log.info(__doc__)
-
+    print('RUN TASK!!!!')
     log_file = LogFile.objects.get(pk=instance_id)
     path = Path(log_file.file)
     with open(path, 'r') as f:
@@ -26,14 +26,19 @@ def process_read_log_file_task(instance_id: int):
             log_data = []
             for row in piece:  # прогоняем строки чанка через регулярки, сохраняем в виде списка словарей
                 log_data.append(re_logs_to_dict(row))
-            process_parse_logs_task.send(log_data)  # отправляем в таски
+
+            result = Log.objects.bulk_create([Log(**i) for i in log_data])
+            print("CREATED Log objects by chunk")
+            print(result)
+            # TODO: если большой объем, то необходимо распараллелить
+            # process_parse_logs_task.send(log_data)  # отправляем в таски
             # process_parse_logs_task(log_data)
     log_file.processed = True
     log_file.save()
 
 
-@dramatiq.actor
-def process_parse_logs_task(data: List[dict]):
-    """Запуск парсинга и сохранения логов в бд"""
-    result = Log.objects.bulk_create([Log(**i) for i in data])
-    print(result)
+# @dramatiq.actor
+# def process_parse_logs_task(data: List[dict]):
+#     """Запуск парсинга и сохранения логов в бд"""
+#     result = Log.objects.bulk_create([Log(**i) for i in data])
+#     print(result)

@@ -35,10 +35,10 @@ services:
     env_file:
       - .env.dev
     ports:
-      - 8000:8000
+      - "8000:8000"
     volumes:
+      - ${LOG_PATH}:/app/logs
       - ./app:/app/
-      - ${LOG_PATH}:/app/log
     networks:
       - dgs
     depends_on:
@@ -54,7 +54,9 @@ services:
     env_file:
       - .env.dev
     volumes:
+      - ${LOG_PATH}:/app/logs
       - ./app:/app
+
     depends_on:
       - redis
       - app
@@ -73,6 +75,7 @@ services:
       - dgs
     restart: always
     volumes:
+      - ${LOG_PATH}:/app/logs
       - ./logs:/tmp/logs
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./ofelia/config.ini:/etc/ofelia/config.ini
