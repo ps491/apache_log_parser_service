@@ -20,6 +20,10 @@ $ docker-compose -f docker-compose.dev.yml up --build
 ```sh
 $ docker exec -it app poetry run python manage.py loaddata default_data.json
 ```
+3. админка логин - admin, пароль - 25658545
+`http://127.0.0.1:8000/api/swagger/` - документация API
+
+`http://127.0.0.1:8000/admin/` - админка
 
 # Пояснения
 1. Перед запуском необходимо настроить/изменить путь LOG_PATH в файле .env - указать директорию откуда будут браться 

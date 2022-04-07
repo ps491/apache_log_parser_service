@@ -5,9 +5,9 @@ from rest_framework import permissions
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Comtec API",
+        title="GDS API",
         default_version='v1',
-        description="Api for Comtec",
+        description="Api for GDS",
         terms_of_service="https://www.google.com/policies/terms/",
         license=openapi.License(name="BSD License"),
     ),

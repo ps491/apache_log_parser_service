@@ -30,7 +30,8 @@ THIRD_PARTY_APPS: Tuple[str, ...] = (
     'rest_framework',
     'rest_framework.authtoken',
     'drf_yasg',
-    'django_dramatiq'
+    'django_dramatiq',
+    'django_filters',
 )
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PROJECT_APPS
@@ -113,3 +114,4 @@ REDIS_HOST = config("REDIS_HOST")
 REDIS_PORT = config("REDIS_PORT", cast=int, default=6379)
 
 LOG_PATH = config("LOG_PATH")
+LOG_CHUNK = config("LOG_CHUNK", cast=int,)
