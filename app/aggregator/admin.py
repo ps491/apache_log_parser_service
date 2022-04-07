@@ -5,8 +5,8 @@ from .models import Log, TestLog, LogFile
 
 class LogAdmin(admin.ModelAdmin):
     list_display_links = ['id', 'ip', ]
-    list_display = ['id', 'ip', 'url', 'method', 'code']
-    list_filter = ['ip', 'method', 'code']
+    list_display = ['id', 'ip', 'url', 'method', 'status']
+    list_filter = ['ip', 'method', 'status']
 
 
 class TestLogAdmin(admin.ModelAdmin):

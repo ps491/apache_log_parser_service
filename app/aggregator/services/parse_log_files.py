@@ -1,12 +1,17 @@
+import logging
 from pathlib import Path
 
 from .path_log_files import logs_path
 from ..models import LogFile
-from ..tasks import process_parse_log_task
+from ..tasks import process_read_log_file_task
+
+log = logging.getLogger(__name__)
 
 
 def parse_log_files():
     """Parse log files"""
+    # Периодическая проверка директории на наличие новых файлов
+    log.info(__doc__)
     path = Path(logs_path())
     for f in path.iterdir():
         # Если файла нет в бд, то вносим его с processed=False.
@@ -15,15 +20,15 @@ def parse_log_files():
         if f.suffix == '.log':  # TODO: вынести логику проверки расширения в отдельный файл
             obj, created = LogFile.objects.get_or_create(file=f)
             if created:
-                print(f'Создание записи LogFile\n{obj.file}\n\n')
-                # process_parse_log_task.send(instance.id)
-                process_parse_log_task(obj.id)
+                log.info(f'Создание записи в бд LogFile\n{obj.id}\n\n')
+                # process_read_log_file_task.send(instance.id)  # отправляем файл(id записи) в таски на обработку
+                process_read_log_file_task(obj.id)
 
         else:
-            print('мусор', f.name, f.suffix)
+            log.info(f'мусор {f.name} {f.suffix}\n\n')
         # TODO: при смене директории и/или переносе файлов логов, они будут считаться НОВЫМИ:
         #  - либо удалять файлы после парсинга
         #  - либо прогонять повторно и удалять дубли записей в бд, рискованно (будут те которые не факт что дубли...)
-        #  - переименовывать файлы и отсеивать в цикле - распарсивать названия файлов (вводить правила
-        #  наименования приходящих файлов)
-    print('парсим файлы')
+        #  - переименовывать файлы на выходе и отсеивать в цикле проверок - распарсивать названия файлов
+        #  (вводить правила наименования приходящих файлов)
+
