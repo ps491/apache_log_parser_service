@@ -1,7 +1,8 @@
 import logging
 from pathlib import Path
 
-from src.settings.components.base import LOG_PATH
+from django.conf import settings
+
 from ..models import LogFile
 from ..tasks import process_read_log_file_task
 
@@ -12,7 +13,9 @@ def parse_log_files():
     """Parse log files"""
     # Периодическая проверка директории на наличие новых файлов
     log.info(__doc__)
-    path = Path(LOG_PATH)
+    path = Path(settings.LOG_PATH)
+
+    print('parse_log_files LOG_PATH', settings.LOG_PATH)
     for f in path.iterdir():
         # Если файла нет в бд, то вносим его с processed=False.
         # Далее его "подхватит" task после обработки выставит значение True
@@ -31,4 +34,3 @@ def parse_log_files():
         #  - либо прогонять повторно и удалять дубли записей в бд, рискованно (будут те которые не факт что дубли...)
         #  - переименовывать файлы на выходе и отсеивать в цикле проверок - распарсивать названия файлов
         #  (вводить правила наименования приходящих файлов)
-

@@ -33,7 +33,7 @@ services:
     #    command: sh -c "poetry run python manage.py migrate --no-input && poetry run python manage.py runserver 0.0.0.0:8000"
     entrypoint: /app/entrypoint.sh
     env_file:
-      - ./app/.env.dev
+      - .env.dev
     ports:
       - 8000:8000
     volumes:
@@ -52,7 +52,7 @@ services:
       dockerfile: app/Dockerfile
     command: python manage.py rundramatiq
     env_file:
-      - ./app/.env.dev
+      - .env.dev
     volumes:
       - ./app:/app
     depends_on:

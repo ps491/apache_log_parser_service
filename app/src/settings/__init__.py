@@ -31,7 +31,7 @@ _base_settings = (
     f'environments/{_ENV}.py',
 
     # Optionally override some settings:
-    optional('environments/local.py'),
+    # optional('environments/local.py'),
 )
 
 # Include settings:

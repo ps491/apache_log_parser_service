@@ -1,10 +1,12 @@
 from django.db import models
+from django.conf import settings
 
-from aggregator.services.path_log_files import logs_path
+
+print('models LOG_PATH', settings.LOG_PATH)
 
 
 class LogFile(models.Model):
-    file = models.FilePathField(path=logs_path, match=r".*\.log$")
+    file = models.FilePathField(path=settings.LOG_PATH, match=r".*\.log$")
     processed = models.BooleanField(default=False)
 
     def __str__(self):
