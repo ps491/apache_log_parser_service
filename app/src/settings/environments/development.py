@@ -13,7 +13,7 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv(), default=config('DOMAIN'))
 # из контейнера путь до файлов только через директорию logs к которой примонтирована директория из переменных окружения
 # 'LOG_PATH' в docker-compose
 LOG_PATH = BASE_DIR / 'logs'
-print('LOG_PATH', LOG_PATH)
+
 INSTALLED_APPS += (
     # # Better debug:
     # 'debug_toolbar',

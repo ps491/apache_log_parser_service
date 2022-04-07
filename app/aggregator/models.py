@@ -2,9 +2,6 @@ from django.db import models
 from django.conf import settings
 
 
-print('models LOG_PATH', settings.LOG_PATH)
-
-
 class LogFile(models.Model):
     file = models.FilePathField(path=settings.LOG_PATH, match=r".*\.log$")
     processed = models.BooleanField(default=False)

@@ -12,9 +12,8 @@ def item_signal(sender, instance: LogFile, created, **kwargs):
     # disable signal, when create model from command "manage.py loaddata", because will be errors
     if kwargs.get('raw', False):
         return False
-    print(f'Signal')
+
     if created:
-        print(f'Создание записи LogFile\n{instance.file}\n\n')
         # process_parse_log_task.send(instance.id)
         process_read_log_file_task(instance.id)
     return True

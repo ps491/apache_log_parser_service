@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import List
 
 import dramatiq
+from django.conf import settings
 
 from aggregator.models import LogFile, Log
 
@@ -22,7 +23,7 @@ def process_read_log_file_task(instance_id: int):
     with open(path, 'r') as f:
         # делим на чанки по 1000 строк
         # TODO: также желательно предварительно делить сам файл на чанки для чтения - дополнительный цикл for
-        for piece in read_rows_in_chunks(f, 5):
+        for piece in read_rows_in_chunks(f, settings.LOG_PATH):
             log_data = []
             for row in piece:  # прогоняем строки чанка через регулярки, сохраняем в виде списка словарей
                 log_data.append(re_logs_to_dict(row))
