@@ -9,7 +9,7 @@ from aggregator.services.read_log_file import read_log_file
 log = logging.getLogger(__name__)
 
 
-# @dramatiq.actor
+@dramatiq.actor
 def process_read_log_file_task(instance_id: int):
     """Запуск чтения файла"""
     log.info(__doc__)
@@ -17,9 +17,8 @@ def process_read_log_file_task(instance_id: int):
     # TODO: проверяем есть ли файл
 
 
-# @dramatiq.actor
+@dramatiq.actor
 def process_parse_logs_task(data: List[dict]):
     """Запуск парсинга и сохранения логов в бд"""
     log.info(__doc__)
     save_logs(data)
-    # TODO: проверяем есть ли файл

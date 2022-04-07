@@ -21,8 +21,8 @@ def parse_log_files():
             obj, created = LogFile.objects.get_or_create(file=f)
             if created:
                 log.info(f'Создание записи в бд LogFile\n{obj.id}\n\n')
-                # process_read_log_file_task.send(instance.id)  # отправляем файл(id записи) в таски на обработку
-                process_read_log_file_task(obj.id)
+                process_read_log_file_task.send(obj.id)  # отправляем файл(id записи) в таски на обработку
+                # process_read_log_file_task(obj.id)
 
         else:
             log.info(f'мусор {f.name} {f.suffix}\n\n')
