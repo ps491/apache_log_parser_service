@@ -1,6 +1,6 @@
 from decouple import Csv
 
-from src.settings.components import config
+from src.settings.components import config, BASE_DIR
 from src.settings.components.base import (
     INSTALLED_APPS,
     MIDDLEWARE
@@ -9,6 +9,10 @@ print('DEVELOPMENT SETTINGS!!!!')
 DEBUG = True
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv(), default=config('DOMAIN'))
+
+# из контейнера путь до файлов только через директорию logs к которой примонтирована директория из переменных окружения
+# 'LOG_PATH' в docker-compose
+LOG_PATH = BASE_DIR / 'logs'
 
 INSTALLED_APPS += (
     # # Better debug:

@@ -1,7 +1,7 @@
 import logging
 from pathlib import Path
 
-from .path_log_files import logs_path
+from src.settings.components.base import LOG_PATH
 from ..models import LogFile
 from ..tasks import process_read_log_file_task
 
@@ -12,7 +12,7 @@ def parse_log_files():
     """Parse log files"""
     # Периодическая проверка директории на наличие новых файлов
     log.info(__doc__)
-    path = Path(logs_path())
+    path = Path(LOG_PATH)
     for f in path.iterdir():
         # Если файла нет в бд, то вносим его с processed=False.
         # Далее его "подхватит" task после обработки выставит значение True

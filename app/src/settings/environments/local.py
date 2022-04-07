@@ -1,4 +1,4 @@
-from src.settings.components import BASE_DIR
+from src.settings.components import BASE_DIR, config
 
 print('LOCAL SETTINGS!!!!')
 
@@ -10,3 +10,5 @@ DATABASES = {
 }
 
 ALLOWED_HOSTS = ['*']
+
+LOG_PATH = config('LOG_PATH') # в локалке путь до файлов может быть любой...

@@ -38,6 +38,7 @@ services:
       - 8000:8000
     volumes:
       - ./app:/app/
+      - ${LOG_PATH}:/app/log
     networks:
       - dgs
     depends_on:

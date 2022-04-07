@@ -111,3 +111,8 @@ PROJECT_NAME = config('PROJECT_NAME')
 
 REDIS_HOST = config("REDIS_HOST")
 REDIS_PORT = config("REDIS_PORT", cast=int, default=6379)
+
+# в локалке для тестов используем только директорию logs внутри проекта
+# в development к этой директории
+
+print('LOG_PATH', LOG_PATH)
