@@ -16,5 +16,5 @@ ENV PYTHONUNBUFFERED 1
 COPY ./pyproject.toml ./poetry.lock ./app/entrypoint.sh /
 #COPY ./pyproject.toml ./poetry.lock /
 RUN pip3 install poetry
-
+RUN poetry config virtualenvs.create false
 RUN poetry install

@@ -28,7 +28,7 @@ services:
   app:
     container_name: app
     build:
-      context: app
+      context: .
       dockerfile: app/Dockerfile
     #    command: sh -c "poetry run python manage.py migrate --no-input && poetry run python manage.py runserver 0.0.0.0:8000"
     entrypoint: /app/entrypoint.sh
@@ -46,7 +46,9 @@ services:
 
   dramatiq_worker:
     container_name: dramatiq_worker
-    build: ./backend
+    build:
+      context: .
+      dockerfile: app/Dockerfile
     command: python manage.py rundramatiq
     env_file:
       - ./app/.env.dev

@@ -1,12 +1,14 @@
 from django.contrib import admin
 
-from .models import Log, TestLog, LogFile
+from .models import Log, LogFile
 
 
 class LogAdmin(admin.ModelAdmin):
     list_display_links = ['id', 'ip', ]
     list_display = ['id', 'ip', 'url', 'method', 'status']
     list_filter = ['ip', 'method', 'status']
+    list_per_page = 100
+    date_hierarchy = 'time'
 
 
 class TestLogAdmin(admin.ModelAdmin):
@@ -20,7 +22,7 @@ class LogFileAdmin(admin.ModelAdmin):
     readonly_fields = ['processed']
 
 
-admin.site.register(TestLog, TestLogAdmin)
+# admin.site.register(TestLog, TestLogAdmin)
 
 admin.site.register(Log, LogAdmin)
 admin.site.register(LogFile, LogFileAdmin)

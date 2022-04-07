@@ -12,7 +12,14 @@
 СУБД: mysql/postgresql
 
 # Запуск
-
+1. запуск
+```sh
+$ docker-compose -f docker-compose.dev.yml up --build
+```
+2. закидываем дефолтные данные, включая админа 
+```sh
+$ docker exec -it app poetry run python manage.py loaddata default_data.json
+```
 
 # Пояснения
 1. Перед запуском необходимо настроить configuration.ini - указать директорию откуда будут браться файлы логов 
@@ -25,3 +32,15 @@
 создать новый велосипед :-))). 
 Периодичность выполняется по кастомной команде, запускает ее шедулер [Ofelia](https://github.com/mcuadros/ofelia). 
 Дальнейшая обработка файлов передается в задачи Dramatiq
+
+
+# Database dump/load
+```shell
+$ docker exec -it app sh -c "poetry run python manage.py dumpdata --natural-foreign --natural-primary --exclude=contenttypes --exclude=auth.Permission --exclude=admin.logentry --exclude=sessions.session --indent 4 > default_data.json"
+docker exec -it app poetry run python manage.py loaddata default_data.json
+```
+## Enter to container
+```sh
+$ docker exec -it <id container or name> bash
+$ docker exec -it <id container or name> poetry run <command>
+```
