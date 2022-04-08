@@ -1,8 +1,7 @@
 import django_filters
-from django.forms import DateTimeInput
 from django_filters.rest_framework import DjangoFilterBackend
-
 from rest_framework.generics import ListAPIView
+from rest_framework.permissions import IsAuthenticated
 
 from .serializers import LogListSerializer
 from ...models import Log
@@ -32,3 +31,4 @@ class LogListView(ListAPIView):
     serializer_class = LogListSerializer
     filter_backends = [DjangoFilterBackend]
     filter_class = CustomLogFilter
+    permission_classes = (IsAuthenticated,)

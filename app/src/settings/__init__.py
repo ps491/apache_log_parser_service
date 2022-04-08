@@ -24,6 +24,7 @@ _base_settings = (
     'components/base.py',
     'components/dramatiq_settings.py',
     'components/rest_settings.py',
+'components/swagger.py',
     # 'components/logging.py',
 
 

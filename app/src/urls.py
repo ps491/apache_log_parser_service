@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
+from rest_framework.authtoken.views import obtain_auth_token
+
 from .yasg import urlpatterns as swagger_urls
 from aggregator.views import main_page
 
@@ -10,6 +12,7 @@ urlpatterns = [
 
     # api
     path('api/v1/', include('aggregator.api.v1.urls')),
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
 ]
 urlpatterns += swagger_urls
 
