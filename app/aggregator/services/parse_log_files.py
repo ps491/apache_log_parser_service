@@ -14,8 +14,6 @@ def parse_log_files():
     # Периодическая проверка директории на наличие новых файлов
     log.info(__doc__)
     path = Path(settings.LOG_PATH)
-
-    print('parse_log_files LOG_PATH', settings.LOG_PATH)
     for f in path.iterdir():
         # Если файла нет в бд, то вносим его с processed=False.
         # Далее его "подхватит" task после обработки выставит значение True
