@@ -30,7 +30,7 @@ def process_read_log_file_task(instance_id: int):
 
             result = Log.objects.bulk_create([Log(**i) for i in log_data])
             print("CREATED Log objects by chunk")
-            print(result)
+            # print(result)
             # TODO: если большой объем, то необходимо распараллелить
             # process_parse_logs_task.send(log_data)  # отправляем в таски
             # process_parse_logs_task(log_data)

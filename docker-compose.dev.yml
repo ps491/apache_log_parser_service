@@ -73,7 +73,7 @@ services:
 #    command: daemon --docker
     networks:
       - dgs
-    restart: always
+    restart: unless-stopped
     volumes:
       - ${LOG_PATH}:/app/logs
       - ./logs:/tmp/logs

@@ -1,4 +1,5 @@
 import re
+from itertools import islice
 
 # Regex for the common Apache log format.
 parts = [
@@ -18,10 +19,6 @@ parts = [
 pattern = re.compile(r'\s+'.join(parts) + r'\s*\Z')
 
 log_data = []
-# with open('access_2022_04_04.log', 'r') as f:
-#     for row in f.read().splitlines():
-#         log_data.append(pattern.match(row).groupdict())
-from itertools import islice
 
 
 def read_in_chunks(iter_object, chunk_size=2):
@@ -34,12 +31,7 @@ def read_in_chunks(iter_object, chunk_size=2):
         yield chunk
 
 
-with open('access_2022_04_04.log', 'r') as f:
-    # for row in f.read().splitlines():
-    #     print(row)
-    # if hasattr(f.read().splitlines(), '__iter__'):
-    #     print('ok')
-
+with open('access_2022_04_05.log', 'r') as f:
     for slice in read_in_chunks(f):
         log_data = []
         for i in slice:
