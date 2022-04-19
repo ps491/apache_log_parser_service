@@ -1,6 +1,5 @@
 from django.test import TestCase
 
-# Create your tests here.
 from aggregator.services.re_log import re_logs_to_dict
 
 
