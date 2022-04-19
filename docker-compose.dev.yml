@@ -15,11 +15,8 @@ services:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-#      POSTGRES_MULTIPLE_DATABASES: sentry,myproject
-
     volumes:
       - ./pg_data/db:/var/lib/postgresql/data
-
     ports:
       - "5432:5432"
     networks:
@@ -30,7 +27,6 @@ services:
     build:
       context: .
       dockerfile: app/Dockerfile
-    #    command: sh -c "poetry run python manage.py migrate --no-input && poetry run python manage.py runserver 0.0.0.0:8000"
     entrypoint: /app/entrypoint.sh
     env_file:
       - .env.dev
@@ -56,7 +52,6 @@ services:
     volumes:
       - ${LOG_PATH}:/app/logs
       - ./app:/app
-
     depends_on:
       - redis
       - app
