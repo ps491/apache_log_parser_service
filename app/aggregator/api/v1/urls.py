@@ -1,7 +1,6 @@
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 
-from aggregator.api.v1.views import LogListView
+from .views import LogListView
 
 urlpatterns = [
     path('logs/', LogListView.as_view()),

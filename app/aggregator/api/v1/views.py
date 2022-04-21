@@ -8,7 +8,6 @@ from ...models import Log
 
 
 class CustomLogFilter(django_filters.FilterSet):
-    # time = django_filters.DateTimeFromToRangeFilter()
     min_time = django_filters.DateTimeFilter(field_name="time", lookup_expr='gte',)
     max_time = django_filters.DateTimeFilter(field_name="time", lookup_expr='lte', )
 

@@ -1,14 +1,11 @@
 import logging
 from pathlib import Path
-from typing import List
 
 import dramatiq
+from .models import LogFile, Log
+from .services.re_log import re_logs_to_dict
+from .services.read_chunks import read_rows_in_chunks
 from django.conf import settings
-
-from aggregator.models import LogFile, Log
-
-from aggregator.services.re_log import re_logs_to_dict
-from aggregator.services.read_chunks import read_rows_in_chunks
 
 log = logging.getLogger(__name__)
 
@@ -28,7 +25,7 @@ def process_read_log_file_task(instance_id: int):
             for row in piece:  # прогоняем строки чанка через регулярки, сохраняем в виде списка словарей
                 log_data.append(re_logs_to_dict(row))
 
-            result = Log.objects.bulk_create([Log(**i) for i in log_data])
+            Log.objects.bulk_create([Log(**i) for i in log_data])
             print("CREATED Log objects by chunk")
             # print(result)
             # TODO: если большой объем, то необходимо распараллелить

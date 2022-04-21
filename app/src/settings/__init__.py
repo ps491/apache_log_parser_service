@@ -10,7 +10,7 @@ To change settings file:
 from os import environ
 
 import django_stubs_ext
-from split_settings.tools import include, optional
+from split_settings.tools import include
 
 # Monkeypatching Django, so stubs will work for all generics,
 # see: https://github.com/typeddjango/django-stubs
@@ -24,7 +24,7 @@ _base_settings = (
     'components/base.py',
     'components/dramatiq_settings.py',
     'components/rest_settings.py',
-'components/swagger.py',
+    'components/swagger.py',
     # 'components/logging.py',
 
 

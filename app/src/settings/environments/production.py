@@ -1,4 +1,4 @@
-from src.settings.components import config
+from ..components import config
 
 DEBUG = False
 
@@ -9,5 +9,3 @@ ALLOWED_HOSTS = [
     # We need this value for `healthcheck` to work:
     'localhost',
 ]
-
-
