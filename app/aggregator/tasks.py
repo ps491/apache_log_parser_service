@@ -17,20 +17,17 @@ def process_read_log_file_task(instance_id: int):
     print('RUN TASK!!!!')
     log_file = LogFile.objects.get(pk=instance_id)
     path = Path(log_file.file)
-    with open(path, 'r') as f:
+    with open(path, 'r') as file:
         # делим на чанки по 1000 строк
-        # TODO: также желательно предварительно делить сам файл на чанки для чтения - дополнительный цикл for
-        for piece in read_rows_in_chunks(f, settings.LOG_CHUNK):
+
+        for piece in read_rows_in_chunks(file, settings.LOG_CHUNK):
             log_data = []
-            for row in piece:  # прогоняем строки чанка через регулярки, сохраняем в виде списка словарей
+            # прогоняем строки чанка через регулярки, сохраняем в виде списка словарей
+            for row in piece:
                 log_data.append(re_logs_to_dict(row))
 
             Log.objects.bulk_create([Log(**i) for i in log_data])
             print("CREATED Log objects by chunk")
-            # print(result)
-            # TODO: если большой объем, то необходимо распараллелить
-            # process_parse_logs_task.send(log_data)  # отправляем в таски
-            # process_parse_logs_task(log_data)
     log_file.processed = True
     log_file.save()
 

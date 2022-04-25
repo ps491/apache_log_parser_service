@@ -1,4 +1,4 @@
-from src.settings.components import BASE_DIR, config
+from ..components import BASE_DIR, config
 
 print('LOCAL SETTINGS!!!!')
 

@@ -4,6 +4,7 @@ from .models import Log, LogFile
 
 
 class LogAdmin(admin.ModelAdmin):
+    """Админка логов"""
     list_display_links = ['id', 'ip', ]
     list_display = ['id', 'ip', 'url', 'method', 'status']
     list_filter = ['ip', 'method', 'status']
