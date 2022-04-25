@@ -36,6 +36,9 @@ $ docker exec -it app poetry run python manage.py loaddata default_data.json
 3. Периодичность проверки и обработки логов установлена по дефолту - в 1 час
 (для тестов 15 сек - надо раскомментировать в конфиге).
 
+# TODO
+1. Поднять Django до 4 версии, если будет поддержка django-celery-beat для 4 версии
+2. 
 
 # Database dump/load
 ```shell

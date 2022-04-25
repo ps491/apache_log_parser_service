@@ -22,10 +22,10 @@ _ENV = environ['DJANGO_ENV']
 
 _base_settings = (
     'components/base.py',
-    'components/dramatiq_settings.py',
+    'components/celery_settings.py',
     'components/rest_settings.py',
     'components/swagger.py',
-    # 'components/logging.py',
+    'components/logging.py',
 
 
     # Select the right env:

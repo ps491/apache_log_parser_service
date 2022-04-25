@@ -1,16 +1,16 @@
 import logging
 from pathlib import Path
 
-import dramatiq
+
 from .models import LogFile, Log
 from .services.re_log import re_logs_to_dict
 from .services.read_chunks import read_rows_in_chunks
 from django.conf import settings
-
+from src.celery import app
 log = logging.getLogger(__name__)
 
 
-@dramatiq.actor
+@app.task
 def process_read_log_file_task(instance_id: int):
     """Запуск чтения файла"""
     log.info(__doc__)

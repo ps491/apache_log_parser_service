@@ -41,40 +41,44 @@ services:
       - redis
       - db
 
-  dramatiq_worker:
-    container_name: dramatiq_worker
+  celery_worker:
+    restart: unless-stopped
     build:
       context: .
       dockerfile: app/Dockerfile
-    command: python manage.py rundramatiq
+    command: sh -c "poetry run celery -A src worker -l info --pool=solo"
+    container_name: celery_worker
     env_file:
       - .env.dev
     volumes:
       - ${LOG_PATH}:/app/logs
-      - ./app:/app
+      - ./app:/app/
     depends_on:
       - redis
-      - app
       - db
-    restart: unless-stopped
+      - app
     networks:
       - dgs
 
-  ofelia_sheduler:
-    image: mcuadros/ofelia:latest
-    container_name: ofelia_sheduler
+
+
+  celery-beat:
+    build:
+      context: .
+      dockerfile: app/Dockerfile
+    command: celery -A src beat -l info
+#    container_name: celery_beat
+    env_file:
+      - ./app/.env.dev
+    volumes:
+      - ./app:/app/
     depends_on:
       - app
-#    command: daemon --docker
+      - redis
+      - db
+      - celery_worker
     networks:
-      - dgs
-    restart: unless-stopped
-    volumes:
-      - ${LOG_PATH}:/app/logs
-      - ./logs:/tmp/logs
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./ofelia/config.ini:/etc/ofelia/config.ini
-
+      - mailsendler
 networks:
   dgs:
     driver: bridge
