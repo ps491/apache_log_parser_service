@@ -1,9 +1,9 @@
 import django_filters
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 
-from .serializers import LogListSerializer
+from .serializers import LogSerializer
 from ...models import Log
 
 
@@ -27,7 +27,13 @@ class LogListView(ListAPIView):
         min_time: 2020-12-19T13:14:26Z
     """
     queryset = Log.objects.all()
-    serializer_class = LogListSerializer
+    serializer_class = LogSerializer
     filter_backends = [DjangoFilterBackend]
     filter_class = CustomLogFilter
     permission_classes = (IsAuthenticated,)
+
+
+class LogCreate(CreateAPIView):
+    queryset = Log.objects.all()
+    serializer_class = LogSerializer
+

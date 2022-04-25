@@ -30,8 +30,10 @@ THIRD_PARTY_APPS: Tuple[str, ...] = (
     'rest_framework',
     'rest_framework.authtoken',
     'drf_yasg',
-    'django_dramatiq',
     'django_filters',
+
+    'django_celery_results'
+    'django_celery_beat',
 )
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PROJECT_APPS

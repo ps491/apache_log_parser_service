@@ -2,7 +2,8 @@ version: '3.7'
 
 services:
   redis:
-    container_name: redis
+    container_name: parser_redis
+    hostname: parser_redis
     image: redis:latest
     ports:
       - "6379:6379"
@@ -11,6 +12,8 @@ services:
 
   db:
     image: postgres
+    container_name: parser_db
+    hostname: parser_db
     environment:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
@@ -23,7 +26,8 @@ services:
       - dgs
 
   app:
-    container_name: app
+    container_name: parser_app
+    hostname: parser_app
     build:
       context: .
       dockerfile: app/Dockerfile
@@ -47,7 +51,8 @@ services:
       context: .
       dockerfile: app/Dockerfile
     command: sh -c "poetry run celery -A src worker -l info --pool=solo"
-    container_name: celery_worker
+    container_name: parser_celery_worker
+    hostname: parser_celery_worker
     env_file:
       - .env.dev
     volumes:
@@ -61,13 +66,13 @@ services:
       - dgs
 
 
-
   celery-beat:
     build:
       context: .
       dockerfile: app/Dockerfile
     command: celery -A src beat -l info
-#    container_name: celery_beat
+    container_name: parser_celery_beat
+    hostname: parser_celery_beat
     env_file:
       - ./app/.env.dev
     volumes:
@@ -78,7 +83,10 @@ services:
       - db
       - celery_worker
     networks:
-      - mailsendler
+      - dgs
+
+
+
 networks:
   dgs:
     driver: bridge

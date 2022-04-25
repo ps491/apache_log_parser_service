@@ -3,6 +3,7 @@ from pathlib import Path
 
 
 from .models import LogFile, Log
+from .services.parse_log_files import parse_log_files
 from .services.re_log import re_logs_to_dict
 from .services.read_chunks import read_rows_in_chunks
 from django.conf import settings
@@ -35,8 +36,8 @@ def process_read_log_file_task(instance_id: int):
     log_file.save()
 
 
-# @dramatiq.actor
-# def process_parse_logs_task(data: List[dict]):
-#     """Запуск парсинга и сохранения логов в бд"""
-#     result = Log.objects.bulk_create([Log(**i) for i in data])
-#     print(result)
+@shared_task
+def process_parse_logs_task():
+    """Запуск парсинга и сохранения логов в бд"""
+    parse_log_files()
+
