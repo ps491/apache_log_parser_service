@@ -27,7 +27,7 @@ class Log(models.Model):
     protocol = models.CharField(max_length=15, default='-', help_text='%r -> H')
     status = models.CharField(max_length=15, help_text='>s')
     size = models.CharField(max_length=15, help_text='b')
-    referrer = models.URLField(help_text='Referer')
+    referrer = models.CharField(max_length=600, help_text='Referer', default='-')
     agent = models.CharField(max_length=600, help_text='User-agent')
     other = models.CharField(max_length=10, help_text='User-agent')
 

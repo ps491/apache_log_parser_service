@@ -5,9 +5,9 @@ from rest_framework import permissions
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="GDS API",
+        title="Apache Parser API",
         default_version='v1',
-        description="Api for GDS",
+        description="Api for Parser",
         terms_of_service="https://www.google.com/policies/terms/",
         license=openapi.License(name="BSD License"),
     ),

@@ -2,8 +2,7 @@ import re
 from datetime import datetime
 
 
-def re_logs_to_dict(row: str) -> dict:
-    """Pegexp rows"""
+def get_re_pattern():
     parts = [
         r'(?P<ip>\S+)',  # host %h
         r'(?P<indent>\S+)',  # indent %l (unused)
@@ -18,7 +17,12 @@ def re_logs_to_dict(row: str) -> dict:
         r'"(?P<agent>.*)"',  # user agent "%{User-agent}i"
         r'"(?P<other>.*)"',  # user agent "%{User-agent}i"
     ]
-    pattern = re.compile(r'\s+'.join(parts) + r'\s*\Z')
+    return r'\s+'.join(parts) + r'\s*\Z'
+
+
+def re_logs_to_dict(row: str) -> dict:
+    """Pegexp rows"""
+    pattern = re.compile(get_re_pattern())
     # распарсиваем в словарь
     result = pattern.match(row).groupdict()
     # распарсиваем time, переводим в объект datetime

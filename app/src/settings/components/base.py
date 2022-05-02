@@ -32,7 +32,7 @@ THIRD_PARTY_APPS: Tuple[str, ...] = (
     'drf_yasg',
     'django_filters',
 
-    'django_celery_results'
+    'django_celery_results',
     'django_celery_beat',
 )
 
