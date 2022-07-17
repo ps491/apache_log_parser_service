@@ -11,24 +11,24 @@ log = logging.getLogger(__name__)
 
 def parse_log_files():
     """Parse log files"""
-    # Периодическая проверка директории на наличие новых файлов
+    # Periodically check the directory for new files
     log.info(__doc__)
     path = Path(settings.LOG_PATH)
     for f in path.iterdir():
-        # Если файла нет в бд, то вносим его с processed=False.
-        # Далее его "подхватит" task после обработки выставит значение True
-        # Если создание из админки, то его подхватит сигнал и отправит в таск
-        if f.suffix == '.log':  # TODO: вынести логику проверки расширения в отдельный файл
+        # If the file is not in the database, then we add it with processed=False.
+        # Next, it will be "picked up" by task after processing, it will set the value to True
+        # If the creation is from the admin panel, then it will be picked up by a signal and sent to the task
+        if f.suffix == '.log':  # TODO: move the extension check logic to a separate file
             obj, created = LogFile.objects.get_or_create(file=f)
             if created:
-                log.info(f'Создание записи в бд LogFile\n{obj.id}\n\n')
-                process_read_log_file_task.send(obj.id)  # отправляем файл(id записи) в таски на обработку
+                log.info(f'Creating an entry in the LogFile database\n{obj.id}\n\n')
+                process_read_log_file_task.send(obj.id)  # send the file (record id) to tasks for processing
                 # process_read_log_file_task(obj.id)
 
         else:
             log.info(f'мусор {f.name} {f.suffix}\n\n')
-        # TODO: при смене директории и/или переносе файлов логов, они будут считаться НОВЫМИ:
-        #  - либо удалять файлы после парсинга
-        #  - либо прогонять повторно и удалять дубли записей в бд, рискованно (будут те которые не факт что дубли...)
-        #  - переименовывать файлы на выходе и отсеивать в цикле проверок - распарсивать названия файлов
-        #  (вводить правила наименования приходящих файлов)
+        # TODO: when changing directory and/or moving log files, they will be considered NEW:
+        # - either delete files after parsing
+        # - either run it again and delete duplicate records in the database, it's risky (there will be those that are not the fact that they are duplicates ...)
+        # - rename files on output and filter out in the check loop - parse filenames
+        # (enter rules for naming incoming files)

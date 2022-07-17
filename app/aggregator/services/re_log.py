@@ -19,8 +19,8 @@ def re_logs_to_dict(row: str) -> dict:
         r'"(?P<other>.*)"',  # user agent "%{User-agent}i"
     ]
     pattern = re.compile(r'\s+'.join(parts) + r'\s*\Z')
-    # распарсиваем в словарь
+    # parsing into a dictionary
     result = pattern.match(row).groupdict()
-    # распарсиваем time, переводим в объект datetime
+    # parsing parsing time, converting it into a datetime object into a dictionary
     result['time'] = datetime.strptime(result['time'], '%d/%b/%Y:%H:%M:%S %z')
     return result

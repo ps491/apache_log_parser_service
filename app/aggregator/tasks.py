@@ -12,7 +12,7 @@ log = logging.getLogger(__name__)
 
 @dramatiq.actor
 def process_read_log_file_task(instance_id: int):
-    """Запуск чтения файла"""
+    """Start reading a file"""
     log.info(__doc__)
     print('RUN TASK!!!!')
     log_file = LogFile.objects.get(pk=instance_id)
@@ -22,7 +22,7 @@ def process_read_log_file_task(instance_id: int):
 
         for piece in read_rows_in_chunks(file, settings.LOG_CHUNK):
             log_data = []
-            # прогоняем строки чанка через регулярки, сохраняем в виде списка словарей
+            # run chunk strings through regular expressions, save as a list of dictionaries
             for row in piece:
                 log_data.append(re_logs_to_dict(row))
 

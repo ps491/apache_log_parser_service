@@ -1,45 +1,45 @@
 ## Apache log parser
-Приложение, которое является агрегатором данных из access логов apache 
-с сохранением в БД. Разбор файлов выполняется по cron'у.
+An application that is an aggregator of data from apache access logs
+with saving in the database. File parsing is done by cron.
 
-В приложении реализованы функции:
-- авторизация (пользователи в БД)
-- просмотр данных сохраненных в БД (группировка по IP, по дате, выборка по промежутку дат)
-- API для получения данных в виде JSON (смысл тот же: получение данных по временному промежутку, возможность 
-группировать/фильтровать по IP)
-- конфигурация через файл настроек (где лежат логи, маска файлов, и все, что Вам потребуется для настройки приложения)
-СУБД: mysql/postgresql
+The application has the following functions:
+- authorization (users in the database)
+- viewing data stored in the database (grouping by IP, by date, selection by date interval)
+- API for receiving data in the form of JSON (the meaning is the same: obtaining data by time interval, the ability
+group/filter by IP)
+- configuration through the settings file (where the logs, file mask, and everything you need to configure the application are)
+DBMS: mysql/postgresql
 
-# Запуск
-0. добавить LOG_PATH в .env.dev
-1. запуск
+# run
+0. add LOG_PATH to .env.dev
+1. launch
 ```sh
 $ docker-compose -f docker-compose.dev.yml up --build
 ```
 
-2. закидываем дефолтные данные, включая админа 
+2. upload default data, including admin
 ```sh
 $ docker exec -it app poetry run python manage.py loaddata default_data.json
 ```
-3. админка логин - admin, пароль - 25658545
-`http://127.0.0.1:8000/api/swagger/` - документация API
+3. admin login - admin, password - 25658545
+`http://127.0.0.1:8000/api/swagger/` - API documentation
 
-`http://127.0.0.1:8000/admin/` - админка
+`http://127.0.0.1:8000/admin/` - admin panel
 
-# Пояснения
-1. Перед запуском необходимо настроить/изменить путь LOG_PATH в файле .env - указать директорию откуда будут браться 
-файлы логов для агрегатора по крону(по команде pwd можно определить путь и вставить). В локальной разработке путь до файлов может быть любой, в development, 
-т.е. через docker из контейнера путь до файлов только через директорию logs к которой примонтирована директория из 
-переменных окружения LOG_PATH в docker-compose
-2. Если нет переменной LOG_PATH, то выставляется дефолтный путь - директория logs внутри проекта
-и ожидается что файлы будут там появляться.
-3. Периодичность проверки и обработки логов установлена по дефолту - в 1 час
-(для тестов 15 сек - надо раскомментировать в конфиге ofelia).
-4. Начал реализовывать функционал на сelery + celery-beat, но как выяснилось django-celery-beat отвалилась 
-и не ставится на Django выше 4 версии. Можно было бы откатить версии и продолжить, но было принято решение 
-создать новый велосипед :-))). 
-Периодичность выполняется по кастомной команде, запускает ее шедулер [Ofelia](https://github.com/mcuadros/ofelia). 
-Дальнейшая обработка файлов передается в задачи Dramatiq
+# Explanations
+1. Before starting, you need to configure / change the LOG_PATH path in the .env file - specify the directory from where they will be taken
+log files for the cron aggregator (using the pwd command, you can determine the path and paste it). In local development, the path to the files can be any, in development,
+those. through docker from the container, the path to the files only through the logs directory to which the directory from
+LOG_PATH environment variables in docker-compose
+2. If there is no LOG_PATH variable, then the default path is set - the logs directory inside the project
+and it is expected that the files will appear there.
+3. The frequency of checking and processing logs is set by default - at 1 hour
+(for tests, 15 seconds - you need to uncomment it in the ofelia config).
+4. I started to implement functionality on celery + celery-beat, but as it turned out, django-celery-beat fell off
+and is not installed on Django above version 4. It would be possible to roll back the versions and continue, but the decision was made
+create a new bike :-))).
+Periodicity is performed by a custom command, its scheduler [Ofelia] (https://github.com/mcuadros/ofelia) launches it.
+Further file processing is transferred to Dramatiq tasks
 
 
 # Database dump/load

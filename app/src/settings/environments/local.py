@@ -11,5 +11,5 @@ DATABASES = {
 
 ALLOWED_HOSTS = ['*']
 
-# в локалке путь до файлов может быть любой...
+# in the locale, the path to the files can be any...
 LOG_PATH = config('LOG_PATH', default=BASE_DIR / 'logs')

@@ -7,8 +7,8 @@ from aggregator.tasks import process_read_log_file_task
 
 @receiver(post_save, sender=LogFile)
 def item_signal(sender, instance: LogFile, created, **kwargs):
-    """Создание записи файла, делается для того, чтобы была возможность также
-    добавлять или удалять вручную из админки логи"""
+    """Creating a file entry is done in order to be able to also
+     add or remove logs manually from the admin panel"""
     # disable signal, when create model from command "manage.py loaddata",
     # because will be errors
     if kwargs.get('raw', False):
